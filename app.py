@@ -1,3 +1,4 @@
+import os
 import random #pour la création du message
 import smtplib #pour l'envoi par email
 from email.mime.text import MIMEText
@@ -33,7 +34,7 @@ def generer_message():
     return f"{S} {V} {C} {E}"
 
 email_expediteur="a2cbc4001@smtp-brevo.com"
-mdp="xsmtpsib-62d0ffda22d7573c9d90e4ba69bf366a3f96e001409a2327d798fc150bdf9563-ePuhiT0iaOKDM8B9"
+mdp=os.environ.get("MAIL_KEY")
 
 def envoyer_email(destinataire,message_contenu):
     #on préparer l'enveloppe qui contient le message
