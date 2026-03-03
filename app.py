@@ -50,7 +50,6 @@ def envoyer_email(destinataire,message_contenu):
     context=ssl.create_default_context()
     try:
         with smtplib.SMTP_SSL('smtp-relay.brevo.com',465,context=context) as serveur:
-         serveur.set_debuglevel(1)  # ← active le debug
          serveur.login(email_expediteur,mdp) #identification
          serveur.send_message(msg) #envoi définitif
          print("Mail envoyé avec succès ✓ ")
