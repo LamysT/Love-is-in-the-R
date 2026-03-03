@@ -40,7 +40,7 @@ def envoyer_email(destinataire,message_contenu):
     #on préparer l'enveloppe qui contient le message
     msg=MIMEMultipart()
     #comme écrire l'expéditeur,destinataire et objet sur l'enveloppe
-    msg['From']="luv.is.in.the.r@hotmail.com"
+    msg['From']=email_expediteur
     msg['To']=destinataire
     msg['Subject']="Un ptit message pour toi...✨"
 
