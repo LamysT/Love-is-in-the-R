@@ -49,7 +49,7 @@ def envoyer_email(destinataire,message_contenu):
     #connexion au serveur et envoi
     context=ssl.create_default_context()
     try:
-        with smtplib.SMT_SSL('smtp-relay.brevo.com',465,context=context) as serveur:
+        with smtplib.SMTP_SSL('smtp-relay.brevo.com',465,context=context) as serveur:
          serveur.set_debuglevel(1)  # ← active le debug
          serveur.login(email_expediteur,mdp) #identification
          serveur.send_message(msg) #envoi définitif
