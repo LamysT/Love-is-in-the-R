@@ -1,6 +1,6 @@
 import os
 import random #pour la création du message
-import smtplib #pour l'envoi par email
+import smtplib,ssl #pour l'envoi par email
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from flask import Flask, render_template,request,redirect,url_for 
