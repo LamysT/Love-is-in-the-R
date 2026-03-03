@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Post-it d'Amour</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Un peu d'amour...</h1>
+    
+    <div class="post-it">
+        <p class="message">{{ message }}</p>
+    </div>
+
+    <div class="actions">
+        <!-- Recharge la page pour générer un nouveau message -->
+        <a href="{{ url_for('index') }}" class="btn-refresh">🔄 Un autre !</a>
+
+        <!-- Formulaire pour envoyer par email -->
+        <form action="{{ url_for('envoyer') }}" method="post">
+            <input type="hidden" name="message_a_envoyer" value="{{ message | e }}">
+            <input type="email" name="email_utilisateur" placeholder="Email du destinataire" required>
+            <button type="submit" class="btn-send">Envoyer par Mail 💌</button>
+        </form>    
+    </div>
+</div>
+
+<script>
+function creerCoeur() {
+    const coeur = document.createElement('div');
+    coeur.classList.add('coeur');
+    coeur.innerHTML = '❤️';
+    coeur.style.left = Math.random() * 100 + 'vw';
+    coeur.style.animationDuration = Math.random() * 2 + 3 + 's';
+    document.body.appendChild(coeur);
+
+    setTimeout(() => { coeur.remove(); }, 5000);
+}
+setInterval(creerCoeur, 300);
+</script>
+</body>
+</html>

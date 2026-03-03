@@ -1,0 +1,73 @@
+/* Fond de la page */
+body {
+    background-color: #ffdeeb; /* Rose pastel */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Le Post-it */
+.post-it {
+    background: #fefabc; /* Jaune Post-it */
+    width: 280px;
+    height: 280px;
+    padding: 30px;
+    box-shadow: 10px 10px 15px rgba(0,0,0,0.1); /* Ombre portée */
+    transform: rotate(-2deg); /* Petite rotation pour le côté "collé à la va-vite" */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-bottom-right-radius: 50px 5px; /* Effet coin corné */
+}
+
+.message {
+    font-size: 1.5rem;
+    color: #333;
+    font-family: 'cursive'; /* Pour l'effet écriture à la main */
+}
+
+/* Les boutons et le formulaire */
+.actions {
+    margin-top: 30px;
+    text-align: center;
+}
+
+input[type="email"] {
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+.btn-send, .btn-refresh {
+    background: #ff4d8d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin: 5px;
+}
+
+.coeur {
+    position: fixed;
+    top: -10px;
+    font-size: 20px;
+    user-select: none;
+    pointer-events: none;
+    animation: chute linear forwards;
+    z-index: 999;
+}
+
+@keyframes chute {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
