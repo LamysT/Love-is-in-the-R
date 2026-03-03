@@ -33,7 +33,7 @@ def generer_message():
     E=random.choice(emojis)
     return f"{S} {V} {C} {E}"
 
-email_expediteur="a2cbc4001@smtp-brevo.com"
+email_expediteur=os.getenv('SENDER_EMAIL')
 mdp=os.environ.get("MAIL_KEY")
 
 def envoyer_email(destinataire,message_contenu):
