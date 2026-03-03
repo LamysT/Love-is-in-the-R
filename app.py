@@ -47,13 +47,13 @@ def envoyer_email(destinataire,message_contenu):
     #on met le message dedans
     msg.attach(MIMEText(message_contenu,'plain', 'utf-8'))
     #connexion au serveur et envoi
+    context=ssl.create_default_context()
     try:
-        with smtplib.SMTP('smtp-relay.brevo.com',587) as serveur:
+        with smtplib.SMT_SSL('smtp-relay.brevo.com',465,context=context) as serveur:
          serveur.set_debuglevel(1)  # ← active le debug
-         serveur.starttls() #securisation de la connexion
          serveur.login(email_expediteur,mdp) #identification
          serveur.send_message(msg) #envoi définitif
-        print("Mail envoyé avec succès ✓ ")
+         print("Mail envoyé avec succès ✓ ")
         return True
     except Exception as e:
         print(f"Erreur lors de l'envoi :{e}")   
