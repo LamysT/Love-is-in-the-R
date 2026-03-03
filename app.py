@@ -36,6 +36,8 @@ def generer_message():
 email_expediteur=os.getenv('SENDER_EMAIL')
 mdp=os.environ.get("MAIL_KEY")
 
+context = ssl.create_default_context()
+
 def envoyer_email(destinataire,message_contenu):
     #on préparer l'enveloppe qui contient le message
     msg=MIMEMultipart()
@@ -49,7 +51,7 @@ def envoyer_email(destinataire,message_contenu):
     #connexion au serveur et envoi
     context=ssl.create_default_context()
     try:
-        with smtplib.SMTP('smtp-relay.brevo.com',587,timeout=10) as serveur:
+        with smtplib.SMTP('smtp-relay.brevo.com',2525,timeout=15) as serveur:
          serveur.starttls(context=context) # Cette ligne active la sécurité
          serveur.login(email_expediteur,mdp) #identification
          serveur.send_message(msg) #envoi définitif
@@ -82,4 +84,7 @@ def envoyer():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # On récupère le port dynamiquement via la variable d'environnement de Render
+    port = int(os.environ.get("PORT", 10000))
+    # On désactive le debug en production et on écoute sur 0.0.0.0
+    app.run(host='0.0.0.0', port=port, debug=False)
