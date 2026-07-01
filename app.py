@@ -39,8 +39,10 @@ def generer_message():
 context = ssl.create_default_context()
 
 def envoyer_email(destinataire, message_contenu):
-    email_expediteur=os.getenv('SENDER_EMAIL')
-    mdp=os.environ.get("MAIL_KEY")
+    # On récupère les variables DIRECTEMENT ICI au moment de l'envoi
+    email_expediteur = os.getenv('SENDER_EMAIL')
+    mdp = os.environ.get("MAIL_KEY")
+
     url = "https://api.brevo.com/v3/smtp/email"
     headers = {
         "accept": "application/json",
