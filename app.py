@@ -39,7 +39,7 @@ def generer_message():
 context = ssl.create_default_context()
 
 def envoyer_email(destinataire, message_contenu):
-    # On récupère les variables DIRECTEMENT ICI au moment de l'envoi
+    # On récupère bien les clés à l'intérieur
     email_expediteur = os.getenv('SENDER_EMAIL')
     mdp = os.environ.get("MAIL_KEY")
 
@@ -74,27 +74,27 @@ def envoyer_email(destinataire, message_contenu):
         print(f"Erreur lors de l'envoi : {e}")
         return False
 
+
 app = Flask(__name__)
 app.wsgi_app = app.wsgi_app #pour vercel
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    # Générer un nouveau message à chaque chargement
+    if request.method == 'POST':
+        # dans le cas où l'utilisateur a cliqué sur "Envoyer"
+        destinataire = request.form.get('email_utilisateur')
+        message_a_envoyer = request.form.get('message_a_envoyer')
+        
+        succes = envoyer_email(destinataire, message_a_envoyer)
+        
+        if succes:
+            return "<script>alert('Message envoyé avec amour !💌'); window.location.href='/';</script>"
+        else:
+            return "<script>alert('Oups, petit souci technique...❌'); window.location.href='/';</script>"
+
+    # Si c'est un chargement normal (GET), on génère le message
     message = generer_message()
     return render_template('index.html', message=message)
-
-@app.route('/envoyer', methods=['POST'])
-def envoyer():
-    destinataire = request.form.get('email_utilisateur')
-    message_a_envoyer = request.form.get('message_a_envoyer')
-    
-    
-    succes = envoyer_email(destinataire, message_a_envoyer)
-    
-    if succes:
-        return "<script>alert('Message envoyé avec amour !💌'); window.location.href='/';</script>"
-    else:
-        return "<script>alert('Oups, petit souci technique...❌'); window.location.href='/';</script>"
 
 
 if __name__ == '__main__':
