@@ -1,3 +1,4 @@
+import requests
 import os
 import random #pour la création du message
 import smtplib,ssl #pour l'envoi par email
@@ -38,27 +39,36 @@ mdp=os.environ.get("MAIL_KEY")
 
 context = ssl.create_default_context()
 
-def envoyer_email(destinataire,message_contenu):
-    #on préparer l'enveloppe qui contient le message
-    msg=MIMEMultipart()
-    #comme écrire l'expéditeur,destinataire et objet sur l'enveloppe
-    msg['From']=email_expediteur
-    msg['To']=destinataire
-    msg['Subject']="Un ptit message pour toi...✨"
-
-    #on met le message dedans
-    msg.attach(MIMEText(message_contenu,'plain', 'utf-8'))
-    #connexion au serveur et envoi
-    context=ssl.create_default_context()
+def envoyer_email(destinataire, message_contenu):
+    url = "https://api.brevo.com/v3/smtp/email"
+    headers = {
+        "accept": "application/json",
+        "api-key": mdp,  
+        "content-type": "application/json"
+    }
+    payload = {
+        "sender": {
+            "email": email_expediteur  
+        },
+        "to": [
+            {
+                "email": destinataire
+            }
+        ],
+        "subject": "Un ptit message pour toi...✨",
+        "textContent": message_contenu
+    }
+    
     try:
-        with smtplib.SMTP('smtp-relay.brevo.com', 587, timeout=10) as serveur:
-            serveur.starttls(context=context) # Active la sécurité TLS
-            serveur.login(email_expediteur, mdp) # Identification
-            serveur.send_message(msg) # Envoi
-            print("Mail envoyé avec succès ✓ ")
-        return True
+        reponse = requests.post(url, json=payload, headers=headers)
+        if reponse.status_code == 201 or reponse.status_code == 200:
+            print("Mail envoyé avec succès via l'API ✓")
+            return True
+        else:
+            print(f"Erreur Brevo API : {reponse.text}")
+            return False
     except Exception as e:
-        print(f"Erreur lors de l'envoi :{e}")   
+        print(f"Erreur lors de l'envoi : {e}")
         return False
 
 app = Flask(__name__)
