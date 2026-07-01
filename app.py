@@ -51,17 +51,18 @@ def envoyer_email(destinataire,message_contenu):
     #connexion au serveur et envoi
     context=ssl.create_default_context()
     try:
-        with smtplib.SMTP('smtp-relay.brevo.com',2525,timeout=15) as serveur:
-         serveur.starttls(context=context) # Cette ligne active la sécurité
-         serveur.login(email_expediteur,mdp) #identification
-         serveur.send_message(msg) #envoi définitif
-         print("Mail envoyé avec succès ✓ ")
+        with smtplib.SMTP('smtp-relay.brevo.com', 587, timeout=10) as serveur:
+            serveur.starttls(context=context) # Active la sécurité TLS
+            serveur.login(email_expediteur, mdp) # Identification
+            serveur.send_message(msg) # Envoi
+            print("Mail envoyé avec succès ✓ ")
         return True
     except Exception as e:
         print(f"Erreur lors de l'envoi :{e}")   
         return False
 
 app = Flask(__name__)
+app.wsgi_app = app.wsgi_app #pour vercel
 
 @app.route('/')
 def index():
