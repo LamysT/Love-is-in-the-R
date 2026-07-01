@@ -34,12 +34,13 @@ def generer_message():
     E=random.choice(emojis)
     return f"{S} {V} {C} {E}"
 
-email_expediteur=os.getenv('SENDER_EMAIL')
-mdp=os.environ.get("MAIL_KEY")
+
 
 context = ssl.create_default_context()
 
 def envoyer_email(destinataire, message_contenu):
+    email_expediteur=os.getenv('SENDER_EMAIL')
+    mdp=os.environ.get("MAIL_KEY")
     url = "https://api.brevo.com/v3/smtp/email"
     headers = {
         "accept": "application/json",
